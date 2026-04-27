@@ -1,0 +1,40 @@
+{
+    "name": "cordine",
+    "version": "0.0.0",
+    "description": "A framework for discord.js that simplifies command and event handling so you can focus on building your bot.",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "format": "prettier --write ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ShadAeons/cordine.git"
+    },
+    "keywords": [
+        "discord",
+        "discord-bot",
+        "discord.js",
+        "framework"
+    ],
+    "author": "",
+    "license": "MIT",
+    "type": "module",
+    "bugs": {
+        "url": "https://github.com/ShadAeons/cordine/issues"
+    },
+    "homepage": "https://github.com/ShadAeons/cordine#readme",
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.2.1",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.5",
+        "globals": "^17.5.0",
+        "prettier": "^3.8.3",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.59.0"
+    },
+    "peerDependencies": {
+        "discord.js": "^14.26.3"
+    }
+}
