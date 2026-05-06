@@ -1,28 +1,28 @@
 import { ChatInputCommandInteraction } from 'discord.js';
 import { Options, ResolveOptions } from './Options.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyCommandConfig = CommandConfig<any>;
+type CommandOptionParams = Record<string, Options>;
+export type AnyCommandConfig = CommandConfig<CommandOptionParams>;
 
-type CommandExecuteFunc<T extends Record<string, Options>> = (
+type CommandExecuteFunc<T extends CommandOptionParams> = (
     interaction: ChatInputCommandInteraction,
     options: ResolveOptions<T>
 ) => Promise<void>;
 
-interface CommandOptions<T extends Record<string, Options>> {
+interface CommandOptions<T extends CommandOptionParams> {
     description?: string;
     options?: T;
     execute: CommandExecuteFunc<T>;
 }
 
-export interface CommandConfig<T extends Record<string, Options>> {
+export interface CommandConfig<T extends CommandOptionParams> {
     name: string;
     description: string;
     options: T;
     execute: CommandExecuteFunc<T>;
 }
 
-export function defineCommand<T extends Record<string, Options>>(
+export function defineCommand<T extends CommandOptionParams>(
     name: string,
     options: CommandOptions<T>
 ): CommandConfig<T> {
@@ -32,46 +32,4 @@ export function defineCommand<T extends Record<string, Options>>(
         options: options.options ?? ({} as T),
         execute: options.execute,
     };
-}
-
-export function fetchInteractionOptions<T extends Record<string, Options>>(
-    interaction: ChatInputCommandInteraction,
-    cmdOptions: T
-): ResolveOptions<T> {
-    const resolved = Object.entries(cmdOptions).map(([name, opt]) => {
-        switch (opt.type) {
-            case 'string':
-                return [name, interaction.options.getString(name)];
-
-            case 'number':
-                return [name, interaction.options.getNumber(name)];
-
-            case 'integer':
-                return [name, interaction.options.getInteger(name)];
-
-            case 'boolean':
-                return [name, interaction.options.getBoolean(name)];
-
-            case 'user':
-                return [
-                    name,
-                    interaction.options.getMember(name) ||
-                        interaction.options.getUser(name),
-                ];
-
-            case 'role':
-                return [name, interaction.options.getRole(name)];
-
-            case 'mentionable':
-                return [name, interaction.options.getMentionable(name)];
-
-            case 'channel':
-                return [name, interaction.options.getChannel(name)];
-
-            case 'attachment':
-                return [name, interaction.options.getAttachment(name)];
-        }
-    });
-
-    return Object.fromEntries(resolved) as ResolveOptions<T>;
 }
