@@ -28,7 +28,7 @@ describe('Deployer', () => {
         mockPut.mockReset();
     });
 
-    it('returns the number of deployed commands', async () => {
+    it('should return the number of deployed commands', async () => {
         mockPut.mockResolvedValue([{ id: '1' }]);
 
         const result = await deployer.deployToGuild('guildId', [
@@ -43,7 +43,7 @@ describe('Deployer', () => {
         expect(result).toBe(1);
     });
 
-    it('calls the correct REST endpoint', async () => {
+    it('should call the correct REST endpoint', async () => {
         mockPut.mockResolvedValue([{ id: '1' }]);
 
         await deployer.deployToGuild('guildId', [
@@ -61,7 +61,7 @@ describe('Deployer', () => {
         );
     });
 
-    it('returns 0 when no commands are deployed', async () => {
+    it('should return 0 when no commands are deployed', async () => {
         mockPut.mockResolvedValue([]);
 
         const result = await deployer.deployToGuild('guildId', []);
