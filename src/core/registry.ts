@@ -1,9 +1,12 @@
 import {
+    Client,
+    ClientEvents,
     SlashCommandBuilder,
     SlashCommandOptionsOnlyBuilder,
 } from 'discord.js';
 import { CommandConfig } from '../types/Command.js';
 import { Options } from '../types/Options.js';
+import { EventConfig, EventName } from '../types/Event.js';
 
 export function buildSlashCommand<T extends Record<string, Options>>(
     config: CommandConfig<T>
@@ -14,7 +17,6 @@ export function buildSlashCommand<T extends Record<string, Options>>(
             .setDescription(config.description);
 
     for (const [name, option] of Object.entries(config.options)) {
-        console.log(option.type);
         switch (option.type) {
             case 'string':
                 builder = builder.addStringOption((opt) => {
@@ -122,4 +124,16 @@ export function buildSlashCommand<T extends Record<string, Options>>(
     }
 
     return builder.toJSON();
+}
+
+export function registerEvent<T extends EventName>(
+    client: Client,
+    event: EventConfig<T>
+) {
+    const listener = (...args: ClientEvents[T]) => {
+        event.execute(...args);
+    };
+
+    if (event.once) client.once(event.name, listener);
+    else client.on(event.name, listener);
 }
