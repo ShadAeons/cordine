@@ -14,7 +14,7 @@ interface EventOptions<T extends EventName> {
 
 export interface EventConfig<T extends EventName> {
     name: T;
-    once?: boolean;
+    once: boolean;
     execute: EventExecuteFunc<T>;
 }
 
@@ -24,7 +24,7 @@ export function defineEvent<T extends EventName>(
 ): EventConfig<T> {
     return {
         name,
-        once: options.once,
+        once: options.once ?? false,
         execute: options.execute,
     };
 }
