@@ -1,6 +1,6 @@
 {
     "name": "cordine",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "A framework for discord.js that simplifies command and event handling so you can focus on building your bot.",
     "main": "dist/index.js",
     "scripts": {
@@ -19,7 +19,7 @@
         "discord.js",
         "framework"
     ],
-    "author": "",
+    "author": "ShadAeons",
     "license": "MIT",
     "type": "module",
     "bugs": {
