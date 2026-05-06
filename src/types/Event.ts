@@ -1,6 +1,7 @@
 import { ClientEvents } from 'discord.js';
 
-type EventName = keyof ClientEvents;
+export type EventName = keyof ClientEvents;
+export type AnyEventConfig = EventConfig<EventName>;
 
 type EventExecuteFunc<T extends EventName> = (
     ...args: ClientEvents[T]
