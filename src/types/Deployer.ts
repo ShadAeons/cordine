@@ -2,7 +2,7 @@ import { APIApplicationCommand, REST, Routes } from 'discord.js';
 import { AnyCommandConfig } from './Command.js';
 import { buildSlashCommand } from '../core/registry.js';
 
-interface DeployerConfig {
+export interface DeployerConfig {
     deployToGuild: (
         guildId: string,
         commands: AnyCommandConfig[]
