@@ -10,6 +10,17 @@ interface CordineOptions {
     commands?: AnyCommandConfig[];
 }
 
+/**
+ * Creates a Discord.js Client instance with registered events and a command
+ * handler.
+ *
+ * @example
+ * const client = createClient({
+ *     intents: [GatewayIntentBits.Guilds],
+ *     events: [readyEvent],
+ *     commands: [pingCommand]
+ * });
+ */
 export function createClient(options: CordineOptions) {
     const client = new Client({
         intents: options.intents,

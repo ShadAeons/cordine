@@ -16,6 +16,7 @@ export function buildSlashCommand<T extends Record<string, Options>>(
             .setName(config.name)
             .setDescription(config.description);
 
+    // register all option in the slash command builder
     for (const [name, option] of Object.entries(config.options)) {
         switch (option.type) {
             case 'string':
