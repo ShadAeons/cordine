@@ -1,6 +1,10 @@
-export { defineEvent } from './types/Event.js';
-export { defineCommand } from './types/Command.js';
-export { Deployer } from './types/Deployer.js';
+export { defineEvent, EventConfig, AnyEventConfig } from './types/Event.js';
+export {
+    defineCommand,
+    CommandConfig,
+    AnyCommandConfig,
+} from './types/Command.js';
+export { Deployer, DeployerConfig } from './types/Deployer.js';
 export {
     StringOption,
     NumberOption,
@@ -12,4 +16,4 @@ export {
     ChannelOption,
     AttachmentOption,
 } from './types/Options.js';
-export { Cordine } from './core/Cordine.js';
+export { createClient } from './types/Cordine.js';
