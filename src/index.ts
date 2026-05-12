@@ -15,5 +15,5 @@ export {
     MentionableOption,
     ChannelOption,
     AttachmentOption,
-} from './types/Options.js';
+} from './types/options.js';
 export { createClient } from './types/cordine.js';

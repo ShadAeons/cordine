@@ -3,7 +3,7 @@ import {
     AttachmentOption,
     StringOption,
     UserOption,
-} from '../src/types/Options';
+} from '../src/types/options';
 
 describe('Options', () => {
     it('should use provided description', () => {

@@ -5,7 +5,7 @@ import {
     SlashCommandOptionsOnlyBuilder,
 } from 'discord.js';
 import { CommandConfig } from '../types/command.js';
-import { Options } from '../types/Options.js';
+import { Options } from '../types/options.js';
 import { EventConfig, EventName } from '../types/Event.js';
 
 export function buildSlashCommand<T extends Record<string, Options>>(

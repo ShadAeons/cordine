@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction } from 'discord.js';
-import { Options, ResolveOptions } from './Options.js';
+import { Options, ResolveOptions } from './options.js';
 
 type CommandOptionParams = Record<string, Options>;
 
