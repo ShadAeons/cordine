@@ -16,4 +16,4 @@ export {
     ChannelOption,
     AttachmentOption,
 } from './types/Options.js';
-export { createClient } from './types/Cordine.js';
+export { createClient } from './types/cordine.js';

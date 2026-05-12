@@ -1,5 +1,5 @@
 import { describe, expect, it, Mock, vi } from 'vitest';
-import { createClient } from '../src/types/Cordine';
+import { createClient } from '../src/types/cordine';
 import { Client, GatewayIntentBits } from 'discord.js';
 
 vi.mock('discord.js', async (importOriginal) => {
