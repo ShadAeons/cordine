@@ -4,7 +4,7 @@ export {
     CommandConfig,
     AnyCommandConfig,
 } from './types/command.js';
-export { Deployer, DeployerConfig } from './types/Deployer.js';
+export { Deployer, DeployerConfig } from './types/deployer.js';
 export {
     StringOption,
     NumberOption,

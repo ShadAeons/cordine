@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { Deployer, DeployerConfig } from '../src/types/Deployer';
+import { Deployer, DeployerConfig } from '../src/types/deployer';
 
 const { mockPut } = vi.hoisted(() => ({
     mockPut: vi.fn(),
