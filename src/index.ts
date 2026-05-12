@@ -3,7 +3,7 @@ export {
     defineCommand,
     CommandConfig,
     AnyCommandConfig,
-} from './types/Command.js';
+} from './types/command.js';
 export { Deployer, DeployerConfig } from './types/Deployer.js';
 export {
     StringOption,

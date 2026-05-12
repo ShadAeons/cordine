@@ -4,7 +4,7 @@ import {
     SlashCommandBuilder,
     SlashCommandOptionsOnlyBuilder,
 } from 'discord.js';
-import { CommandConfig } from '../types/Command.js';
+import { CommandConfig } from '../types/command.js';
 import { Options } from '../types/Options.js';
 import { EventConfig, EventName } from '../types/Event.js';
 

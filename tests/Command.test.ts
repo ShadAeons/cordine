@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { defineCommand } from '../src/types/Command';
+import { defineCommand } from '../src/types/command';
 
 describe('Command', () => {
     it('should create a CommandConfig', () => {

@@ -1,5 +1,5 @@
 import { APIApplicationCommand, REST, Routes } from 'discord.js';
-import { AnyCommandConfig } from './Command.js';
+import { AnyCommandConfig } from './command.js';
 import { buildSlashCommand } from '../core/registry.js';
 
 /**

@@ -1,6 +1,6 @@
 import { Client, Collection, GatewayIntentBits, Interaction } from 'discord.js';
 import { AnyEventConfig } from './Event.js';
-import { AnyCommandConfig } from './Command.js';
+import { AnyCommandConfig } from './command.js';
 import { fetchInteractionOptions } from '../core/context.js';
 import { registerEvent } from '../core/registry.js';
 
