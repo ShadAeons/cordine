@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 import { CommandConfig } from '../types/command.js';
 import { Options } from '../types/options.js';
-import { EventConfig, EventName } from '../types/Event.js';
+import { EventConfig, EventName } from '../types/event.js';
 
 export function buildSlashCommand<T extends Record<string, Options>>(
     config: CommandConfig<T>

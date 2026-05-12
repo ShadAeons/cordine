@@ -1,4 +1,4 @@
-export { defineEvent, EventConfig, AnyEventConfig } from './types/Event.js';
+export { defineEvent, EventConfig, AnyEventConfig } from './types/event.js';
 export {
     defineCommand,
     CommandConfig,

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { defineEvent } from '../src/types/Event';
+import { defineEvent } from '../src/types/event';
 
 describe('Event', () => {
     it('should create an EventConfig', () => {
