@@ -1,31 +1,27 @@
 import { ClientEvents } from 'discord.js';
 
 /**
- * Any valid Discord client event name.
- */
-export type EventName = keyof ClientEvents;
-
-/**
  * Any event config regardless of the specific event name.
  */
-export type AnyEventConfig = EventConfig<EventName>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyEventConfig = EventConfig<any>;
 
-type EventExecuteFunc<T extends EventName> = (
+type EventExecuteFunction<T extends keyof ClientEvents> = (
     ...args: ClientEvents[T]
 ) => void | Promise<void>;
 
-interface EventOptions<T extends EventName> {
-    once?: boolean;
-    execute: EventExecuteFunc<T>;
-}
+type EventOptions<T extends keyof ClientEvents> = Omit<
+    EventConfig<T>,
+    'name' | 'once'
+> & { once?: boolean };
 
 /**
  * Represents a fully resolved event listener definition.
  */
-export interface EventConfig<T extends EventName> {
+export interface EventConfig<T extends keyof ClientEvents> {
     name: T;
     once: boolean;
-    execute: EventExecuteFunc<T>;
+    execute: EventExecuteFunction<T>;
 }
 
 /**
@@ -38,7 +34,7 @@ export interface EventConfig<T extends EventName> {
  *     execute: (client) => { ... }
  * });
  */
-export function defineEvent<T extends EventName>(
+export function defineEvent<T extends keyof ClientEvents>(
     name: T,
     options: EventOptions<T>
 ): EventConfig<T> {
