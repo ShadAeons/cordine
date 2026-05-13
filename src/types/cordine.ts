@@ -3,6 +3,8 @@ import { AnyEventConfig } from './event.js';
 import { AnyCommandConfig } from './command.js';
 import { fetchInteractionOptions } from '../core/context.js';
 import { registerEvent } from '../core/registry.js';
+import { Executable } from './base.js';
+import { Options } from './options.js';
 
 interface CordineOptions {
     intents: GatewayIntentBits[];
@@ -55,8 +57,24 @@ async function handleCommand(
     }
 
     try {
-        const options = fetchInteractionOptions(interaction, command.options);
-        await command.execute(interaction, options);
+        let executable: Executable<Record<string, Options>>;
+
+        if (command.type === 'subs') {
+            const subcommandName = interaction.options.getSubcommand();
+            const groupName = interaction.options.getSubcommandGroup();
+
+            executable = groupName
+                ? command.groups[groupName].subcommands[subcommandName]
+                : command.subcommands[subcommandName];
+        } else {
+            executable = command;
+        }
+
+        const options = fetchInteractionOptions(
+            interaction,
+            executable.options
+        );
+        await executable.execute(interaction, options);
     } catch (err) {
         console.error(err);
     }
