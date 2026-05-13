@@ -33,6 +33,7 @@ describe('Deployer', () => {
 
         const result = await deployer.deployToGuild('guildId', [
             {
+                type: 'flat',
                 name: 'ping',
                 description: 'Ping!',
                 execute: vi.fn(),
@@ -48,6 +49,7 @@ describe('Deployer', () => {
 
         await deployer.deployToGuild('guildId', [
             {
+                type: 'flat',
                 name: 'ping',
                 description: 'Ping!',
                 execute: vi.fn(),

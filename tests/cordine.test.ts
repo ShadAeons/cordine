@@ -61,8 +61,9 @@ describe('Cordine', () => {
             intents: [],
             commands: [
                 {
+                    type: 'flat',
                     name: 'ping',
-                    description: '',
+                    description: 'Ping command description',
                     options: {},
                     execute,
                 },
