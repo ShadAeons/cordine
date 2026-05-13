@@ -4,6 +4,8 @@ export {
     CommandConfig,
     AnyCommandConfig,
 } from './types/command.js';
+export { Subcommand } from './types/subcommand.js';
+export { SubcommandGroup } from './types/subcommand-group.js';
 export { Deployer, DeployerConfig } from './types/deployer.js';
 export {
     StringOption,
