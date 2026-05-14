@@ -7,7 +7,11 @@ describe('Command', () => {
         const cmd = defineCommand('ping', {
             description: 'Ping command',
             options: {
-                target: { type: 'user', description: 'Target user' },
+                target: {
+                    type: 'user',
+                    required: false,
+                    description: 'Target user',
+                },
             },
             execute,
         });
@@ -17,6 +21,7 @@ describe('Command', () => {
         expect(cmd.description).toBe('Ping command');
         expect(cmd.options.target).toMatchObject({
             type: 'user',
+            required: false,
             description: 'Target user',
         });
         expect(cmd.execute).toBe(execute);

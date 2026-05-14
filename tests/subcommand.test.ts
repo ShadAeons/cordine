@@ -6,13 +6,20 @@ describe('Subcommand', () => {
         const execute = vi.fn();
         const subcommand = Subcommand({
             description: 'Subcommand description',
-            options: { opt: { type: 'string', description: 'String option' } },
+            options: {
+                opt: {
+                    type: 'string',
+                    required: false,
+                    description: 'String option',
+                },
+            },
             execute,
         });
 
         expect(subcommand.description).toBe('Subcommand description');
         expect(subcommand.options.opt).toMatchObject({
             type: 'string',
+            required: false,
             description: 'String option',
         });
         expect(subcommand.execute).toBe(execute);

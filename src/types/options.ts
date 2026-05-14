@@ -6,6 +6,7 @@ import {
     Role,
     User,
 } from 'discord.js';
+import { BaseConfig } from './base.js';
 
 interface OptionTypeMap {
     string: string;
@@ -28,29 +29,32 @@ export type ResolveOptions<T extends Record<string, Options>> = {
 };
 
 export type Options =
-    | StringOption
-    | NumberOption
-    | IntegerOption
-    | BooleanOption
-    | UserOption
-    | RoleOption
-    | MentionableOption
-    | ChannelOption
-    | AttachmentOption;
+    | StringOptionConfig
+    | NumberOptionConfig
+    | IntegerOptionConfig
+    | BooleanOptionConfig
+    | UserOptionConfig
+    | RoleOptionConfig
+    | MentionableOptionConfig
+    | ChannelOptionConfig
+    | AttachmentOptionConfig;
+
+type StringOptionOptions = Omit<StringOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
 
 /**
  * Represents a string option for a slash command.
  * Use {@link StringOption} to create one.
  */
-export type StringOption = {
+export interface StringOptionConfig extends BaseConfig {
     type: 'string';
-    required?: boolean;
-    description: string;
+    required: boolean;
     autocomplete?: boolean;
     minLength?: number;
     maxLength?: number;
     choices?: { name: string; value: string }[];
-};
+}
 
 /**
  * Defines a string option for a slash command.
@@ -66,23 +70,25 @@ export type StringOption = {
  *     choices: [{ name: 'Red', value: 'red' }, { name: 'Blue', value: 'blue' }],
  * });
  */
-export function StringOption(
-    config?: Omit<StringOption, 'type'>
-): StringOption {
+export function StringOption(options: StringOptionOptions): StringOptionConfig {
     return {
         type: 'string',
-        ...config,
-        description: config?.description ?? 'Default string option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type NumberOptionOptions = Omit<NumberOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
+
 /**
  * Represents a number option for a slash command.
- * Use {@link NumberOption} to create one.
+ * Use {@link NumberOptionConfig} to create one.
  */
-export type NumberOption = {
+export type NumberOptionConfig = {
     type: 'number';
-    required?: boolean;
+    required: boolean;
     description: string;
     autocomplete?: boolean;
     minValue?: number;
@@ -102,23 +108,25 @@ export type NumberOption = {
  *     maxValue: 100
  * });
  */
-export function NumberOption(
-    config?: Omit<NumberOption, 'type'>
-): NumberOption {
+export function NumberOption(options: NumberOptionOptions): NumberOptionConfig {
     return {
         type: 'number',
-        ...config,
-        description: config?.description ?? 'Default number option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type IntegerOptionOptions = Omit<IntegerOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
+
 /**
  * Represents a integer option for a slash command.
- * Use {@link IntegerOption} to create one.
+ * Use {@link IntegerOptionConfig} to create one.
  */
-export type IntegerOption = {
+export type IntegerOptionConfig = {
     type: 'integer';
-    required?: boolean;
+    required: boolean;
     description: string;
     autocomplete?: boolean;
     minValue?: number;
@@ -139,23 +147,26 @@ export type IntegerOption = {
  * });
  */
 export function IntegerOption(
-    config?: Omit<IntegerOption, 'type'>
-): IntegerOption {
+    options: IntegerOptionOptions
+): IntegerOptionConfig {
     return {
         type: 'integer',
-        ...config,
-        description:
-            config?.description ?? 'Default integer option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type BooleanOptionOptions = Omit<BooleanOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
+
 /**
  * Represents a boolean option for a slash command.
- * Use {@link BooleanOption} to create one.
+ * Use {@link BooleanOptionConfig} to create one.
  */
-export type BooleanOption = {
+export type BooleanOptionConfig = {
     type: 'boolean';
-    required?: boolean;
+    required: boolean;
     description: string;
 };
 
@@ -170,23 +181,26 @@ export type BooleanOption = {
  * });
  */
 export function BooleanOption(
-    config?: Omit<BooleanOption, 'type'>
-): BooleanOption {
+    options: BooleanOptionOptions
+): BooleanOptionConfig {
     return {
         type: 'boolean',
-        ...config,
-        description:
-            config?.description ?? 'Default boolean option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type UserOptionOptions = Omit<UserOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
+
 /**
  * Represents a user option for a slash command.
- * Use {@link UserOption} to create one.
+ * Use {@link UserOptionConfig} to create one.
  */
-export type UserOption = {
+export type UserOptionConfig = {
     type: 'user';
-    required?: boolean;
+    required: boolean;
     description: string;
 };
 
@@ -200,21 +214,25 @@ export type UserOption = {
  *     description: 'Target user'
  * });
  */
-export function UserOption(config?: Omit<UserOption, 'type'>): UserOption {
+export function UserOption(options: UserOptionOptions): UserOptionConfig {
     return {
         type: 'user',
-        ...config,
-        description: config?.description ?? 'Default user option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type RoleOptionOptions = Omit<RoleOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
+
 /**
  * Represents a role option for a slash command.
- * Use {@link RoleOption} to create one.
+ * Use {@link RoleOptionConfig} to create one.
  */
-export type RoleOption = {
+export type RoleOptionConfig = {
     type: 'role';
-    required?: boolean;
+    required: boolean;
     description: string;
 };
 
@@ -228,21 +246,28 @@ export type RoleOption = {
  *     description: 'Target role'
  * });
  */
-export function RoleOption(config?: Omit<RoleOption, 'type'>): RoleOption {
+export function RoleOption(options: RoleOptionOptions): RoleOptionConfig {
     return {
         type: 'role',
-        ...config,
-        description: config?.description ?? 'Default role option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type MentionableOptionOptions = Omit<
+    MentionableOptionConfig,
+    'type' | 'required'
+> & {
+    required?: boolean;
+};
+
 /**
  * Represents a mentionable option for a slash command.
- * Use {@link MentionableOption} to create one.
+ * Use {@link MentionableOptionConfig} to create one.
  */
-export type MentionableOption = {
+export type MentionableOptionConfig = {
     type: 'mentionable';
-    required?: boolean;
+    required: boolean;
     description: string;
 };
 
@@ -257,23 +282,26 @@ export type MentionableOption = {
  * });
  */
 export function MentionableOption(
-    config?: Omit<MentionableOption, 'type'>
-): MentionableOption {
+    options: MentionableOptionOptions
+): MentionableOptionConfig {
     return {
         type: 'mentionable',
-        ...config,
-        description:
-            config?.description ?? 'Default mentionable option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type ChannelOptionOptions = Omit<ChannelOptionConfig, 'type' | 'required'> & {
+    required?: boolean;
+};
+
 /**
  * Represents a channel option for a slash command.
- * Use {@link ChannelOption} to create one.
+ * Use {@link ChannelOptionConfig} to create one.
  */
-export type ChannelOption = {
+export type ChannelOptionConfig = {
     type: 'channel';
-    required?: boolean;
+    required: boolean;
     description: string;
     channelTypes?: (
         | ChannelType.GuildText
@@ -301,23 +329,29 @@ export type ChannelOption = {
  * });
  */
 export function ChannelOption(
-    config?: Omit<ChannelOption, 'type'>
-): ChannelOption {
+    options: ChannelOptionOptions
+): ChannelOptionConfig {
     return {
         type: 'channel',
-        ...config,
-        description:
-            config?.description ?? 'Default channel option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
 
+type AttachmentOptionOptions = Omit<
+    AttachmentOptionConfig,
+    'type' | 'required'
+> & {
+    required?: boolean;
+};
+
 /**
  * Represents a attachment option for a slash command.
- * Use {@link AttachmentOption} to create one.
+ * Use {@link AttachmentOptionConfig} to create one.
  */
-export type AttachmentOption = {
+export type AttachmentOptionConfig = {
     type: 'attachment';
-    required?: boolean;
+    required: boolean;
     description: string;
 };
 
@@ -332,12 +366,11 @@ export type AttachmentOption = {
  * });
  */
 export function AttachmentOption(
-    config?: Omit<AttachmentOption, 'type'>
-): AttachmentOption {
+    options: AttachmentOptionOptions
+): AttachmentOptionConfig {
     return {
         type: 'attachment',
-        ...config,
-        description:
-            config?.description ?? 'Default attachment option description',
+        ...options,
+        required: options.required ?? false,
     };
 }
