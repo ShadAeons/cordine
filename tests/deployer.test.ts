@@ -29,7 +29,7 @@ describe('Deployer', () => {
     });
 
     it('should return the number of deployed commands', async () => {
-        mockPut.mockResolvedValue([{ id: '1' }]);
+        mockPut.mockResolvedValue([{ id: '1' }, { id: '2' }]);
 
         const result = await deployer.deployToGuild('guildId', [
             {
@@ -39,12 +39,25 @@ describe('Deployer', () => {
                 execute: vi.fn(),
                 options: {},
             },
+            {
+                type: 'subs',
+                name: 'settings',
+                subcommands: {
+                    set: {
+                        description: 'Description',
+                        options: {},
+                        execute: vi.fn(),
+                    },
+                },
+                groups: {},
+                description: 'Settings command',
+            },
         ]);
 
-        expect(result).toBe(1);
+        expect(result).toBe(2);
     });
 
-    it('should call the correct REST endpoint', async () => {
+    it('should call the correct REST endpoint (deployToGuild)', async () => {
         mockPut.mockResolvedValue([{ id: '1' }]);
 
         await deployer.deployToGuild('guildId', [
@@ -58,7 +71,28 @@ describe('Deployer', () => {
         ]);
 
         expect(mockPut).toHaveBeenCalledWith(
-            expect.stringContaining('guildId'),
+            expect.stringMatching(
+                '/applications/clientId/guilds/guildId/commands'
+            ),
+            expect.objectContaining({ body: expect.any(Array) })
+        );
+    });
+
+    it('should call the correct REST endpoint (deployToGlobal)', async () => {
+        mockPut.mockResolvedValue([{ id: '1' }]);
+
+        await deployer.deployToGlobal([
+            {
+                type: 'flat',
+                name: 'ping',
+                description: 'Ping!',
+                execute: vi.fn(),
+                options: {},
+            },
+        ]);
+
+        expect(mockPut).toHaveBeenCalledWith(
+            expect.stringMatching('/applications/clientId/commands'),
             expect.objectContaining({ body: expect.any(Array) })
         );
     });

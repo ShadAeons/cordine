@@ -10,6 +10,7 @@ export interface DeployerConfig {
         guildId: string,
         commands: AnyCommandConfig[]
     ) => Promise<number>;
+    deployToGlobal: (commands: AnyCommandConfig[]) => Promise<number>;
 }
 
 /**
@@ -22,14 +23,27 @@ export interface DeployerConfig {
 export function Deployer(token: string, clientId: string): DeployerConfig {
     const rest = new REST().setToken(token);
 
+    const buildCommands = (commands: AnyCommandConfig[]) =>
+        commands.map((cmd) => buildSlashCommand(cmd));
+
     return {
-        async deployToGuild(guildId: string, commands: AnyCommandConfig[]) {
-            const body = commands.map((cmd) => buildSlashCommand(cmd));
+        async deployToGuild(guildId, commands) {
+            const body = buildCommands(commands);
 
             const data = (await rest.put(
                 Routes.applicationGuildCommands(clientId, guildId),
                 { body }
             )) as APIApplicationCommand[];
+
+            return data.length;
+        },
+
+        async deployToGlobal(commands) {
+            const body = buildCommands(commands);
+
+            const data = (await rest.put(Routes.applicationCommands(clientId), {
+                body,
+            })) as APIApplicationCommand[];
 
             return data.length;
         },
