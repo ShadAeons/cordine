@@ -51,6 +51,44 @@ const ping = defineCommand('ping', {
 });
 ```
 
+#### Subcommands & Subcommand groups
+
+When adding subcommands or subcommand groups, each subcommand has to have their
+own `execute` function while the root command loses its `execute` and `options`.
+
+```typescript
+const settings = defineCommand('settings', {
+    description: 'Configurable settings for the bot.',
+    subcommands: {
+        get: Subcommand({
+            description: 'Get the settings\' current value',
+            options: { category: StringOption({ description: 'Category to get the value of' }) },
+            async execute(interaction, { category }) {
+                const value = /* ... */
+
+                await interaction.reply(`Value: ${value}`);
+            }
+        })
+    },
+    groups: {
+        ban: SubcommandGroup({
+            subcommands: {
+                set: Subcommand({
+                    description: 'Permission to ban',
+                    options: { toggle: BooleanOption({ description: 'Allow ban?' }) },
+                    async execute(interaction, { toggle }) {
+                        // Do things
+                        // ...
+
+                        await interaction.reply(`Ban permission set to ${toggle}`);
+                    }
+                });
+            },
+        }),
+    },
+});
+```
+
 ### Defining an event
 
 Use `defineEvent` to create an event listener for the Discord.js client.
@@ -84,15 +122,10 @@ await deployer.deployToGuild('guild-id', [pingCommand]);
 ### Commands
 
 - Command permissions
-- Subcommand and subcommand group support
 - Message components
     - Buttons
     - Select menus
     - Modals
-
-### Deployer
-
-- Global command deployment
 
 ## License
 
