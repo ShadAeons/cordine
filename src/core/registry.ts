@@ -3,23 +3,6 @@ import {
     ClientEvents,
     SlashCommandBuilder,
     SlashCommandOptionsOnlyBuilder,
-<<<<<<< HEAD
-} from 'discord.js';
-import { CommandConfig } from '../types/Command.js';
-import { Options } from '../types/Options.js';
-import { EventConfig, EventName } from '../types/Event.js';
-
-export function buildSlashCommand<T extends Record<string, Options>>(
-    config: CommandConfig<T>
-) {
-    let builder: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder =
-        new SlashCommandBuilder()
-            .setName(config.name)
-            .setDescription(config.description);
-
-    // register all option in the slash command builder
-    for (const [name, option] of Object.entries(config.options)) {
-=======
     SlashCommandSubcommandBuilder,
     SlashCommandSubcommandGroupBuilder,
     SlashCommandSubcommandsOnlyBuilder,
@@ -151,7 +134,6 @@ export class Registry {
         name: string,
         option: Options
     ) {
->>>>>>> develop
         switch (option.type) {
             case 'string':
                 builder = builder.addStringOption((opt) => {
@@ -256,21 +238,12 @@ export class Registry {
                 });
                 break;
         }
-<<<<<<< HEAD
-    }
-
-    return builder.toJSON();
-}
-
-export function registerEvent<T extends EventName>(
-=======
 
         return builder;
     }
 }
 
 export function registerEvent<T extends keyof ClientEvents>(
->>>>>>> develop
     client: Client,
     event: EventConfig<T>
 ) {
