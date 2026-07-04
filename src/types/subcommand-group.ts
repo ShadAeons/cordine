@@ -2,8 +2,11 @@ import { BaseConfig } from './base.js';
 import { AnySubcommandConfig } from './subcommand.js';
 
 export interface SubcommandGroupConfig extends BaseConfig {
+    type: 'group';
     subcommands: Record<string, AnySubcommandConfig>;
 }
+
+type SubcommandGroupOptions = Omit<SubcommandGroupConfig, 'type'>;
 
 /**
  * Creates a slash command subcommand group.
@@ -16,7 +19,7 @@ export interface SubcommandGroupConfig extends BaseConfig {
  * });
  */
 export function SubcommandGroup(
-    options: SubcommandGroupConfig
+    options: SubcommandGroupOptions
 ): SubcommandGroupConfig {
-    return options;
+    return { type: 'group', ...options };
 }
