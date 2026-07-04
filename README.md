@@ -59,7 +59,7 @@ own `execute` function while the root command loses its `execute` and `options`.
 ```typescript
 const settings = defineCommand('settings', {
     description: 'Configurable settings for the bot.',
-    subcommands: {
+    entries: {
         get: Subcommand({
             description: 'Get the settings\' current value',
             options: { category: StringOption({ description: 'Category to get the value of' }) },
@@ -68,9 +68,7 @@ const settings = defineCommand('settings', {
 
                 await interaction.reply(`Value: ${value}`);
             }
-        })
-    },
-    groups: {
+        }),
         ban: SubcommandGroup({
             subcommands: {
                 set: Subcommand({
