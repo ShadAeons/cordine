@@ -16,6 +16,7 @@ describe('Subcommand', () => {
             execute,
         });
 
+        expect(subcommand.type).toBe('subcommand');
         expect(subcommand.description).toBe('Subcommand description');
         expect(subcommand.options.opt).toMatchObject({
             type: 'string',

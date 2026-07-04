@@ -8,6 +8,7 @@ describe('SubcommandGroup', () => {
             description: 'Subcommand group description',
             subcommands: {
                 sub: {
+                    type: 'subcommand',
                     description: 'Subcommand description',
                     options: {},
                     execute,
@@ -15,8 +16,10 @@ describe('SubcommandGroup', () => {
             },
         });
 
+        expect(group.type).toBe('group');
         expect(group.description).toBe('Subcommand group description');
         expect(group.subcommands.sub).toMatchObject({
+            type: 'subcommand',
             description: 'Subcommand description',
             options: {},
             execute,
