@@ -9,6 +9,8 @@ import { AnySubcommandConfig } from './subcommand.js';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyCommandConfig = CommandConfig<any>;
 
+export type CommandEntry = AnySubcommandConfig | SubcommandGroupConfig;
+
 interface FlatCommandConfig<T extends Record<string, Options>>
     extends BaseCommandConfig, Executable<T> {
     type: 'flat';
@@ -16,8 +18,7 @@ interface FlatCommandConfig<T extends Record<string, Options>>
 
 interface SubcommandCommandConfig extends BaseCommandConfig {
     type: 'subs';
-    subcommands: Record<string, AnySubcommandConfig>;
-    groups: Record<string, SubcommandGroupConfig>;
+    entries: Record<string, CommandEntry>;
 }
 
 /**
@@ -38,10 +39,7 @@ type FlatCommandOptions<T extends Record<string, Options>> = Omit<
 /**
  * Represents a fully resolved slash command definition with subcommands.
  */
-type SubcommandCommandOptions = Omit<
-    SubcommandCommandConfig,
-    'name' | 'groups' | 'type'
-> & { groups?: Record<string, SubcommandGroupConfig> };
+type SubcommandCommandOptions = Omit<SubcommandCommandConfig, 'name' | 'type'>;
 
 type CommandOptions<T extends Record<string, Options>> =
     | FlatCommandOptions<T>
@@ -78,13 +76,12 @@ export function defineCommand<T extends Record<string, Options>>(
     };
 
     // SubcommandCommandConfig
-    if ('subcommands' in options) {
+    if ('entries' in options) {
         const subOptions = options as SubcommandCommandOptions;
         return {
             type: 'subs',
             ...config,
-            subcommands: subOptions.subcommands,
-            groups: subOptions.groups ?? {},
+            entries: subOptions.entries,
         };
     }
 
