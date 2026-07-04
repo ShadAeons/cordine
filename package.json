@@ -1,6 +1,6 @@
 {
     "name": "cordine",
-    "version": "0.1.0",
+    "version": "0.1.4",
     "description": "A framework for discord.js that simplifies command and event handling so you can focus on building your bot.",
     "main": "dist/index.js",
     "scripts": {
@@ -39,6 +39,9 @@
         "vitest": "^4.1.5"
     },
     "peerDependencies": {
-        "discord.js": "^14.26.3"
+        "discord.js": "^14.26.4"
+    },
+    "overrides": {
+        "undici": "^6.27.0"
     }
 }

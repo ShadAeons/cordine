@@ -1,0 +1,88 @@
+import { Client, Collection, GatewayIntentBits, Interaction } from 'discord.js';
+import { AnyEventConfig } from './event.js';
+import { AnyCommandConfig } from './command.js';
+import { fetchInteractionOptions } from '../core/context.js';
+import { registerEvent } from '../core/registry.js';
+import { Executable } from './base.js';
+import { Options } from './options.js';
+import { SubcommandGroupConfig } from './subcommand-group.js';
+import { AnySubcommandConfig } from './subcommand.js';
+
+interface CordineOptions {
+    intents: GatewayIntentBits[];
+    events?: AnyEventConfig[];
+    commands?: AnyCommandConfig[];
+}
+
+/**
+ * Creates a Discord.js Client instance with registered events and a command
+ * handler.
+ *
+ * @example
+ * const client = createClient({
+ *     intents: [GatewayIntentBits.Guilds],
+ *     events: [readyEvent],
+ *     commands: [pingCommand]
+ * });
+ */
+export function createClient(options: CordineOptions) {
+    const client = new Client({
+        intents: options.intents,
+    });
+
+    // Setup command handler
+    const commands = new Collection<string, AnyCommandConfig>();
+    options.commands?.forEach((cmd) => commands.set(cmd.name, cmd));
+
+    client.on('interactionCreate', (interaction) =>
+        handleCommand(interaction, commands)
+    );
+
+    // Register events
+    options.events?.forEach((event) => {
+        registerEvent(client, event);
+    });
+
+    return client;
+}
+
+async function handleCommand(
+    interaction: Interaction,
+    commands: Collection<string, AnyCommandConfig>
+) {
+    if (!interaction.isChatInputCommand()) return;
+
+    const command = commands.get(interaction.commandName);
+    if (!command) {
+        console.error(`${interaction.commandName} not a valid command`);
+        return;
+    }
+
+    try {
+        let executable: Executable<Record<string, Options>>;
+
+        if (command.type === 'subs') {
+            const subcommandName = interaction.options.getSubcommand();
+            const groupName = interaction.options.getSubcommandGroup();
+
+            if (groupName)
+                executable = (
+                    command.entries[groupName] as SubcommandGroupConfig
+                ).subcommands[subcommandName];
+            else
+                executable = command.entries[
+                    subcommandName
+                ] as AnySubcommandConfig;
+        } else {
+            executable = command;
+        }
+
+        const options = fetchInteractionOptions(
+            interaction,
+            executable.options
+        );
+        await executable.execute(interaction, options);
+    } catch (err) {
+        console.error(err);
+    }
+}

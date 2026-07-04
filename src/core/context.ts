@@ -1,5 +1,9 @@
 import { ChatInputCommandInteraction } from 'discord.js';
+<<<<<<< HEAD
 import { Options, ResolveOptions } from '../types/Options.js';
+=======
+import { Options, ResolveOptions } from '../types/options.js';
+>>>>>>> develop
 
 export function fetchInteractionOptions<T extends Record<string, Options>>(
     interaction: ChatInputCommandInteraction,
