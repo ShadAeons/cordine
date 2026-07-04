@@ -1,6 +1,6 @@
 import { APIApplicationCommand, REST, Routes } from 'discord.js';
 import { AnyCommandConfig } from './command.js';
-import { buildSlashCommand } from '../core/registry.js';
+import { Registry } from '../core/registry.js';
 
 /**
  * Provides methods for deploying slash commands to Discord.
@@ -23,8 +23,10 @@ export interface DeployerConfig {
 export function Deployer(token: string, clientId: string): DeployerConfig {
     const rest = new REST().setToken(token);
 
+    const registry = new Registry();
+
     const buildCommands = (commands: AnyCommandConfig[]) =>
-        commands.map((cmd) => buildSlashCommand(cmd));
+        commands.map((cmd) => registry.build(cmd));
 
     return {
         async deployToGuild(guildId, commands) {
