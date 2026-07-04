@@ -42,14 +42,14 @@ describe('Deployer', () => {
             {
                 type: 'subs',
                 name: 'settings',
-                subcommands: {
+                entries: {
                     set: {
+                        type: 'subcommand',
                         description: 'Description',
                         options: {},
                         execute: vi.fn(),
                     },
                 },
-                groups: {},
                 description: 'Settings command',
             },
         ]);

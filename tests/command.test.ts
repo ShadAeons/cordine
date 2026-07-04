@@ -31,15 +31,21 @@ describe('Command', () => {
         const execute = vi.fn();
         const cmd = defineCommand('ping', {
             description: 'Ping command',
-            subcommands: {
-                sub: { description: '', options: {}, execute },
+            entries: {
+                sub: {
+                    type: 'subcommand',
+                    description: '',
+                    options: {},
+                    execute,
+                },
             },
         });
 
         expect(cmd.type).toBe('subs');
         expect(cmd.name).toBe('ping');
         expect(cmd.description).toBe('Ping command');
-        expect(cmd.subcommands.sub).toMatchObject({
+        expect(cmd.entries.sub).toMatchObject({
+            type: 'subcommand',
             description: '',
             options: {},
             execute,
