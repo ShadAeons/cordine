@@ -5,6 +5,8 @@ import { fetchInteractionOptions } from '../core/context.js';
 import { registerEvent } from '../core/registry.js';
 import { Executable } from './base.js';
 import { Options } from './options.js';
+import { SubcommandGroupConfig } from './subcommand-group.js';
+import { AnySubcommandConfig } from './subcommand.js';
 
 interface CordineOptions {
     intents: GatewayIntentBits[];
@@ -63,9 +65,14 @@ async function handleCommand(
             const subcommandName = interaction.options.getSubcommand();
             const groupName = interaction.options.getSubcommandGroup();
 
-            executable = groupName
-                ? command.groups[groupName].subcommands[subcommandName]
-                : command.subcommands[subcommandName];
+            if (groupName)
+                executable = (
+                    command.entries[groupName] as SubcommandGroupConfig
+                ).subcommands[subcommandName];
+            else
+                executable = command.entries[
+                    subcommandName
+                ] as AnySubcommandConfig;
         } else {
             executable = command;
         }
